@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manameme/text.dart';
 
 void main() => runApp(MyApp());
 
@@ -80,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                 ),
               ),
+              VocabularyText(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
