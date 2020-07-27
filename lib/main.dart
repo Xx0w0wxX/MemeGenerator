@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manameme/text.dart';
+//import 'package:manameme/text.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,18 +26,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _imageUrlController = TextEditingController();
-  final _vocabularyController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  TextEditingController _imageUrlController = TextEditingController();
+  TextEditingController _vocabularyController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
   String imageurl = '';
   String vocabulary = '';
   String description = '';
-//
-//  _incrementCounter() {
-//    setState(() {
-//      _counter = 's';
-//    });
-//  }
+  Offset offset = Offset.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    _imageUrlController = TextEditingController();
+    _vocabularyController = TextEditingController();
+    _descriptionController = TextEditingController();
+  }
+  @override
+  void dispose() {
+    _imageUrlController.dispose();
+    _vocabularyController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,23 +75,57 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _imageUrlController,
                 ),
               ),
-              Container(
-                height: 400,
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(5),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.grey)),
-                child: FittedBox(
-                  child: imageurl == ''
-                      ? Image.network(
-                          'https://2.bp.blogspot.com/-vZRh5cey3yc/WzC-pA4QK8I/AAAAAAABNDw/JObsGPB24p4LNRBSsje-OVP-fzUTX5OFQCLcBGAs/s800/mukiryoku_ojisan.png')
-                      : Image.network(
-                          imageurl,
-                        ),
-                ),
+              Stack(
+                children: <Widget>[
+                  Container(
+                    height: 400,
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    child: FittedBox(
+                      child: imageurl == ''
+                          ? Image.network(
+                              'https://2.bp.blogspot.com/-vZRh5cey3yc/WzC-pA4QK8I/AAAAAAABNDw/JObsGPB24p4LNRBSsje-OVP-fzUTX5OFQCLcBGAs/s800/mukiryoku_ojisan.png')
+                          : Image.network(
+                              imageurl,
+                            ),
+                    ),
+                  ),
+                  Container(
+                    child: Positioned(
+                      left: offset.dx,
+                      top: offset.dy,
+                      child: GestureDetector(
+                          onPanUpdate: (details) {
+                            setState(() {
+                              offset = Offset(offset.dx + details.delta.dx,
+                                  offset.dy + details.delta.dy);
+                            });
+                          },
+                          child: SizedBox(
+                            width: 300,
+                            height: 300,
+                            child: Padding(
+                              padding: EdgeInsets.all(3),
+                              child: Center(
+                                child: Text(
+                                    vocabulary,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 28,
+                                        color: Colors.red
+                                    )
+                                ),
+                              ),
+                            ),
+                          )),
+                    ),
+                  ),
+                ],
               ),
-              VocabularyText(),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
