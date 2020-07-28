@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 //import 'package:manameme/text.dart';
 
 void main() => runApp(MyApp());
@@ -41,6 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Color textColor1 = Colors.pinkAccent;
   Color textColor2 = Colors.lightGreen;
 
+  GlobalKey<State<StatefulWidget>> scr = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -48,12 +52,21 @@ class _MyHomePageState extends State<MyHomePage> {
     _vocabularyController = TextEditingController();
     _descriptionController = TextEditingController();
   }
+
   @override
   void dispose() {
     _imageUrlController.dispose();
     _vocabularyController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  Future takescrshot() async {
+    final boundary = scr.currentContext.findRenderObject() as RenderRepaintBoundary;
+    final image = await boundary.toImage();
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final pngBytes = byteData.buffer.asUint8List();
+    print(pngBytes);
   }
 
   @override
@@ -72,6 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
               const Text(
                 'You can set Image URL:',
               ),
+              FlatButton(
+                onPressed: () {
+                  takescrshot();
+                },
+                child: Text('save'),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(60, 30, 60, 10),
                 child: TextField(
@@ -82,57 +101,57 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _imageUrlController,
                 ),
               ),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    height: 400,
-                    width: MediaQuery.of(context).size.width,
+              RepaintBoundary(
+                key: scr,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      height: 400,
+                      width: MediaQuery.of(context).size.width,
 //                    width: 600,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(30),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey)),
-                    child: FittedBox(
-                      child: imageurl == ''
-                          ? Image.network(
-                              'https://2.bp.blogspot.com/-vZRh5cey3yc/WzC-pA4QK8I/AAAAAAABNDw/JObsGPB24p4LNRBSsje-OVP-fzUTX5OFQCLcBGAs/s800/mukiryoku_ojisan.png')
-                          : Image.network(
-                              imageurl,
-                            ),
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(30),
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.grey)),
+                      child: FittedBox(
+                        child: imageurl == ''
+                            ? Image.network(
+                                'https://2.bp.blogspot.com/-vZRh5cey3yc/WzC-pA4QK8I/AAAAAAABNDw/JObsGPB24p4LNRBSsje-OVP-fzUTX5OFQCLcBGAs/s800/mukiryoku_ojisan.png')
+                            : Image.network(
+                                imageurl,
+                              ),
+                      ),
                     ),
-                  ),
-                  Container(
-                    child: Positioned(
-                      left: offset.dx,
-                      top: offset.dy,
-                      child: GestureDetector(
-                          onPanUpdate: (details) {
-                            setState(() {
-                              offset = Offset(offset.dx + details.delta.dx,
-                                  offset.dy + details.delta.dy);
-                            });
-                          },
-                          child: SizedBox(
-                            width: 300,
-                            height: 300,
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Center(
-                                child: Text(
-                                    vocabulary,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28,
-                                        color: textColor1
-                                    )
+                    Container(
+                      child: Positioned(
+                        left: offset.dx,
+                        top: offset.dy,
+                        child: GestureDetector(
+                            onPanUpdate: (details) {
+                              setState(() {
+                                offset = Offset(offset.dx + details.delta.dx,
+                                    offset.dy + details.delta.dy);
+                              });
+                            },
+                            child: SizedBox(
+                              width: 300,
+                              height: 300,
+                              child: Padding(
+                                padding: const EdgeInsets.all(3),
+                                child: Center(
+                                  child: Text(vocabulary,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 28,
+                                          color: textColor1)),
                                 ),
                               ),
-                            ),
-                          )),
+                            )),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,10 +170,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          setState(() => textColor1 =
-                              Color((
-                                  Random().nextDouble() * 0xFFFFFF).toInt() << 0
-                              ).withOpacity(1));
+                          setState(() => textColor1 = Color(
+                                  (Random().nextDouble() * 0xFFFFFF).toInt() <<
+                                      0)
+                              .withOpacity(1));
                         },
                         child: const Text('RANDOM'),
                         color: Colors.lightBlueAccent,
