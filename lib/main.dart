@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 //import 'package:manameme/text.dart';
 
@@ -29,10 +31,15 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _imageUrlController = TextEditingController();
   TextEditingController _vocabularyController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+
   String imageurl = '';
   String vocabulary = '';
   String description = '';
+
   Offset offset = Offset.zero;
+
+  Color textColor1 = Colors.pinkAccent;
+  Color textColor2 = Colors.lightGreen;
 
   @override
   void initState() {
@@ -80,8 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                     height: 400,
                     width: MediaQuery.of(context).size.width,
+//                    width: 600,
                     margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(30),
                     decoration:
                         BoxDecoration(border: Border.all(color: Colors.grey)),
                     child: FittedBox(
@@ -108,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             width: 300,
                             height: 300,
                             child: Padding(
-                              padding: EdgeInsets.all(3),
+                              padding: const EdgeInsets.all(3),
                               child: Center(
                                 child: Text(
                                     vocabulary,
@@ -116,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28,
-                                        color: Colors.red
+                                        color: textColor1
                                     )
                                 ),
                               ),
@@ -129,6 +137,30 @@ class _MyHomePageState extends State<MyHomePage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        shape: const StadiumBorder(
+                          side: BorderSide(color: Colors.black12),
+                        ),
+                        onPressed: () {
+                          setState(() => textColor1 = Colors.black);
+                        },
+                        child: const Text('BLACK'),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          setState(() => textColor1 =
+                              Color((
+                                  Random().nextDouble() * 0xFFFFFF).toInt() << 0
+                              ).withOpacity(1));
+                        },
+                        child: const Text('RANDOM'),
+                        color: Colors.lightBlueAccent,
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     child: TextField(
@@ -139,16 +171,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: _vocabularyController,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
-                    child: TextField(
-                      onChanged: (value) {},
-                      decoration: const InputDecoration(
-                        hintText: 'description',
-                      ),
-                      controller: _descriptionController,
-                    ),
-                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
+//                    child: TextField(
+//                      onChanged: (value) {},
+//                      decoration: const InputDecoration(
+//                        hintText: 'description',
+//                      ),
+//                      controller: _descriptionController,
+//                    ),
+//                  ),
                 ],
               ),
             ],
@@ -160,11 +192,11 @@ class _MyHomePageState extends State<MyHomePage> {
           () {
             imageurl = _imageUrlController.text;
             vocabulary = _vocabularyController.text;
-            description = _descriptionController.text;
+//            description = _descriptionController.text;
           },
         ),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: 'Set',
+        child: const Icon(Icons.border_color),
       ),
     );
   }
