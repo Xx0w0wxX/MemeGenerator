@@ -75,9 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(60, 30, 60, 10),
                 child: TextField(
-//                onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        imageurl = _imageUrlController.text;
+                        vocabulary = _vocabularyController.text;
+                      },
+                    );
+                  },
                   decoration: const InputDecoration(
-                    hintText: 'image url',
+                    hintText: 'here is image url',
                   ),
                   controller: _imageUrlController,
                 ),
@@ -87,7 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   Container(
                     height: 400,
                     width: MediaQuery.of(context).size.width,
-//                    width: 600,
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(30),
                     decoration:
@@ -164,39 +170,38 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     child: TextField(
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                      setState(
+                      () {
+                        vocabulary = value;
+                      },
+                    );
+                      },
                       decoration: const InputDecoration(
                         hintText: 'Vocabulary',
                       ),
-                      controller: _vocabularyController,
                     ),
                   ),
-//                  Padding(
-//                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
-//                    child: TextField(
-//                      onChanged: (value) {},
-//                      decoration: const InputDecoration(
-//                        hintText: 'description',
-//                      ),
-//                      controller: _descriptionController,
-//                    ),
-//                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
+                    child: TextField(
+                      onChanged: (value) {
+                      setState(
+                      () {
+                        description = value;
+                      },
+                    );
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'Description',
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(
-          () {
-            imageurl = _imageUrlController.text;
-            vocabulary = _vocabularyController.text;
-//            description = _descriptionController.text;
-          },
-        ),
-        tooltip: 'Set',
-        child: const Icon(Icons.border_color),
       ),
     );
   }
