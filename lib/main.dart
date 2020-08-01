@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-//import 'package:manameme/text.dart';
+
+import 'color_wheel.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _vocabularyController = TextEditingController();
     _descriptionController = TextEditingController();
   }
+
   @override
   void dispose() {
     _imageUrlController.dispose();
@@ -124,15 +126,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(3),
                               child: Center(
-                                child: Text(
-                                    vocabulary,
+                                child: Text(vocabulary,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 28,
-                                        color: textColor1
-                                    )
-                                ),
+                                        color: textColor1)),
                               ),
                             ),
                           )),
@@ -157,10 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          setState(() => textColor1 =
-                              Color((
-                                  Random().nextDouble() * 0xFFFFFF).toInt() << 0
-                              ).withOpacity(1));
+                          setState(() => textColor1 = Color(
+                                  (Random().nextDouble() * 0xFFFFFF).toInt() <<
+                                      0)
+                              .withOpacity(1));
                         },
                         child: const Text('RANDOM'),
                         color: Colors.lightBlueAccent,
@@ -171,11 +170,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     child: TextField(
                       onChanged: (value) {
-                      setState(
-                      () {
-                        vocabulary = value;
-                      },
-                    );
+                        setState(
+                          () {
+                            vocabulary = value;
+                          },
+                        );
                       },
                       decoration: const InputDecoration(
                         hintText: 'Vocabulary',
@@ -186,11 +185,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     child: TextField(
                       onChanged: (value) {
-                      setState(
-                      () {
-                        description = value;
-                      },
-                    );
+                        setState(
+                          () {
+                            description = value;
+                          },
+                        );
                       },
                       decoration: const InputDecoration(
                         hintText: 'Description',
@@ -206,3 +205,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
