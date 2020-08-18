@@ -2,8 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'color_wheel.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Meme Generator'),
     );
   }
 }
@@ -38,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String description = '';
 
   Offset offset = Offset.zero;
+  Offset offset2 = Offset.zero;
 
   Color textColor1 = Colors.pinkAccent;
   Color textColor2 = Colors.lightGreen;
@@ -114,27 +113,67 @@ class _MyHomePageState extends State<MyHomePage> {
                       left: offset.dx,
                       top: offset.dy,
                       child: GestureDetector(
-                          onPanUpdate: (details) {
-                            setState(() {
-                              offset = Offset(offset.dx + details.delta.dx,
-                                  offset.dy + details.delta.dy);
-                            });
-                          },
-                          child: SizedBox(
-                            width: 300,
-                            height: 300,
-                            child: Padding(
-                              padding: const EdgeInsets.all(3),
-                              child: Center(
-                                child: Text(vocabulary,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 28,
-                                        color: textColor1)),
+                        onPanUpdate: (details) {
+                          setState(() {
+                            offset = Offset(
+                              offset.dx + details.delta.dx,
+                              offset.dy + details.delta.dy,
+                            );
+                          });
+                        },
+                        child: SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: Center(
+                              child: Text(
+                                vocabulary,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                                  color: textColor1,
+                                ),
                               ),
                             ),
-                          )),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Positioned(
+                      left: offset2.dx,
+                      top: offset2.dy + 200,
+                      child: GestureDetector(
+                        onPanUpdate: (details) {
+                          setState(() {
+                            offset2 = Offset(
+                              offset2.dx + details.delta.dx,
+                              offset2.dy + details.delta.dy,
+                            );
+                          });
+                        },
+                        child: SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: Center(
+                              child: Text(
+                                description,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                                  color: textColor2,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -156,10 +195,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       RaisedButton(
                         onPressed: () {
-                          setState(() => textColor1 = Color(
-                                  (Random().nextDouble() * 0xFFFFFF).toInt() <<
-                                      0)
-                              .withOpacity(1));
+                          setState(
+                            () => textColor1 = Color(
+                                    (Random().nextDouble() * 0xFFFFFF)
+                                            .toInt() <<
+                                        0)
+                                .withOpacity(1),
+                          );
                         },
                         child: const Text('RANDOM'),
                         color: Colors.lightBlueAccent,
@@ -205,4 +247,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
