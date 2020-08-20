@@ -27,35 +27,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _imageUrlController = TextEditingController();
-  TextEditingController _vocabularyController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-
   String imageurl = '';
   String vocabulary = '';
   String description = '';
+
+  double vFontSize = 25;
+  double dFontSize = 25;
 
   Offset offset = Offset.zero;
   Offset offset2 = Offset.zero;
 
   Color textColor1 = Colors.pinkAccent;
   Color textColor2 = Colors.lightGreen;
-
-  @override
-  void initState() {
-    super.initState();
-    _imageUrlController = TextEditingController();
-    _vocabularyController = TextEditingController();
-    _descriptionController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _imageUrlController.dispose();
-    _vocabularyController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,33 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Column(
             children: <Widget>[
-              const SizedBox(
-                height: 30,
-              ),
-              const Text(
-                'You can set Image URL:',
-              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(60, 30, 60, 10),
                 child: TextField(
                   onChanged: (value) {
                     setState(
                       () {
-                        imageurl = _imageUrlController.text;
-                        vocabulary = _vocabularyController.text;
+                        imageurl = value;
                       },
                     );
                   },
                   decoration: const InputDecoration(
-                    hintText: 'here is image url',
+                    hintText: 'https://path/to/your_awesome_image.png',
                   ),
-                  controller: _imageUrlController,
                 ),
               ),
               Stack(
                 children: <Widget>[
                   Container(
-                    height: 400,
+                    height: 300,
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.all(10),
                     padding: const EdgeInsets.all(30),
@@ -132,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 28,
+                                  fontSize: vFontSize,
                                   color: textColor1,
                                 ),
                               ),
@@ -144,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     child: Positioned(
-                      left: offset2.dx,
-                      top: offset2.dy + 200,
+                      left: offset2.dx + 100,
+                      top: offset2.dy + 100,
                       child: GestureDetector(
                         onPanUpdate: (details) {
                           setState(() {
@@ -166,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 28,
+                                  fontSize: dFontSize,
                                   color: textColor2,
                                 ),
                               ),
@@ -208,35 +183,93 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            vocabulary = value;
-                          },
-                        );
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Vocabulary',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            vFontSize = vFontSize + 5;
+                          });
+                        },
                       ),
-                    ),
+                      IconButton(
+                        icon: const Icon(
+                          IconData(0xe15b, fontFamily: 'MaterialIcons'),
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            vFontSize = vFontSize - 5;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(
+                              () {
+                                vocabulary = value;
+                              },
+                            );
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Vocabulary',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
-                    child: TextField(
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            description = value;
-                          },
-                        );
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Description',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            dFontSize = dFontSize + 5;
+                          });
+                        },
                       ),
-                    ),
+                      IconButton(
+                        icon: const Icon(
+                          IconData(0xe15b, fontFamily: 'MaterialIcons'),
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            dFontSize = dFontSize - 5;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(
+                              () {
+                                description = value;
+                              },
+                            );
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Description',
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                    ],
                   ),
                 ],
               ),
