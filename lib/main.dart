@@ -1,18 +1,24 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'notifier/meme_notifier.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider<MemeNotifier>(
+      create: (context) => MemeNotifier(),
+      child: MaterialApp(
+        title: 'Meme Generator',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        home: const MyHomePage(title: 'Meme Generator'),
       ),
-      home: const MyHomePage(title: 'Meme Generator'),
     );
   }
 }
@@ -59,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final memeNotifier = Provider.of<MemeNotifier>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -76,18 +83,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(60, 30, 60, 10),
                 child: TextField(
-                  onChanged: (value) {
-                    setState(
-                      () {
-                        imageurl = _imageUrlController.text;
-                        vocabulary = _vocabularyController.text;
-                      },
-                    );
-                  },
+                  controller: memeNotifier.imageUrlTextEditingController,
                   decoration: const InputDecoration(
                     hintText: 'here is image url',
                   ),
-                  controller: _imageUrlController,
                 ),
               ),
               Stack(
@@ -211,13 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     child: TextField(
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            vocabulary = value;
-                          },
-                        );
-                      },
+                      controller: memeNotifier.vocaburaryTextEditingController,
                       decoration: const InputDecoration(
                         hintText: 'Vocabulary',
                       ),
@@ -226,13 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     child: TextField(
-                      onChanged: (value) {
-                        setState(
-                          () {
-                            description = value;
-                          },
-                        );
-                      },
+                      controller: memeNotifier.descriptionTextEditingController,
                       decoration: const InputDecoration(
                         hintText: 'Description',
                       ),
