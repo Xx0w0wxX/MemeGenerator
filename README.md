@@ -9,3 +9,6 @@ Learn something new with ( Flutter x Meme )
 ![sample](./assets/issue-1.gif)
 
 
+# transition
+
+[![Stargazers over time](https://starchart.cc/Xx0w0wxX/MemeGenerator.svg)](https://starchart.cc/Xx0w0wxX/MemeGenerator)
